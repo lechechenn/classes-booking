@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>教練管理系統 - 專業全裝置滿版同步版</title>
+    <title>教練管理系統 - 專業全功能優化恢復版</title>
     <!-- CSS & Frameworks -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -14,46 +14,60 @@
         [v-cloak] { display: none !important; }
         body { font-family: 'Inter', 'Noto Sans TC', sans-serif; background-color: #f8fafc; text-align: left; -webkit-tap-highlight-color: transparent; }
         
-        /* 滿版佈局容器 */
-        .main-container { width: 100%; max-width: 100%; margin: 0 auto; }
+        .main-container { width: 100%; max-width: 100%; margin: 0 auto; padding-left: 0.25rem; padding-right: 0.25rem; }
+        @media (min-width: 640px) { .main-container { padding-left: 1.5rem; padding-right: 1.5rem; } }
+        @media (min-width: 1024px) { .main-container { padding-left: 2.5rem; padding-right: 2.5rem; } }
         
         .glass-nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 10px 40px -10px rgba(0,0,0,0.15); }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         
-        /* 日曆網格 */
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
         
         .course-item-compact { 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            padding: 4px 8px; 
-            border-radius: 8px; 
-            font-size: 11px; 
+            padding: 3px 6px; 
+            border-radius: 6px; 
+            font-size: 9px; 
             font-weight: 800; 
-            margin-bottom: 4px; 
-            border-left-width: 4px; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            margin-bottom: 3px; 
+            border-left-width: 3px; 
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
             cursor: pointer;
-            transition: transform 0.1s, opacity 0.2s;
+            transition: transform 0.1s;
+        }
+        @media (min-width: 768px) {
+            .course-item-compact { padding: 4px 8px; border-radius: 8px; font-size: 11px; margin-bottom: 4px; border-left-width: 4px; }
         }
         .course-item-compact:active { transform: scale(0.97); }
-        .course-item-compact:hover { opacity: 0.9; }
 
         .action-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 20px; background-color: #4f46e5; color: white !important; border-radius: 1.25rem; font-weight: 800; box-shadow: 0 4px 12px -2px rgba(79, 70, 229, 0.4); transition: all 0.2s ease; cursor: pointer; }
-        .available-time-text { font-size: 13px; line-height: 1.8; color: #4f46e5; text-align: center; font-weight: 700; padding: 8px 0; border-radius: 12px; transition: all 0.2s; cursor: pointer; border: 1px solid #e2e8f0; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .available-time-text:hover { background-color: #4f46e5; color: white; border-color: #4f46e5; }
+        
+        .available-time-text { 
+            font-size: 13px; 
+            line-height: 1.8; 
+            color: #4f46e5; 
+            text-align: center; 
+            font-weight: 800; 
+            padding: 10px 0; 
+            border-radius: 12px; 
+            transition: all 0.2s; 
+            cursor: pointer; 
+            border: 1px solid #e2e8f0; 
+            background: white; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .available-time-text:hover { background-color: #4f46e5; color: white; border-color: #4f46e5; transform: translateY(-1px); }
         
         .sync-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 9999px; font-size: 10px; font-weight: 900; background: white; border: 1px solid #e2e8f0; color: #64748b; }
         .sync-pill.synced { color: #10b981; border-color: #10b981; background: #f0fdf4; }
         .sync-pill.syncing { color: #4f46e5; border-color: #4f46e5; }
         .animate-spin-custom { animation: spin 1.5s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        /* 響應式週曆滾動容器 */
-        .week-scroll-container { display: flex; overflow-x: auto; gap: 12px; padding-bottom: 12px; scroll-snap-type: x mandatory; }
-        .week-column { min-width: 160px; flex: 1; scroll-snap-align: start; }
+        
+        .week-scroll-container { display: flex; overflow-x: auto; gap: 6px; padding-bottom: 12px; scroll-snap-type: x mandatory; }
+        .week-column { min-width: 140px; flex: 1; scroll-snap-align: start; }
         @media (min-width: 1024px) { 
             .week-scroll-container { display: grid; grid-template-columns: repeat(7, 1fr); overflow-x: visible; gap: 8px; } 
             .week-column { min-width: 0; }
@@ -61,90 +75,86 @@
         
         .status-pill { padding: 4px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s; border: 1px solid #e2e8f0; background: white; color: #64748b; }
         .status-pill-active { background-color: #10b981; color: white; border-color: #10b981; }
-        .status-pill-no-show { background-color: #f59e0b; color: white; border-color: #f59e0b; }
-        .status-pill-cancelled { background-color: #94a3b8; color: white; border-color: #94a3b8; }
 
-        .progress-btn { font-size: 10px; font-weight: 900; padding: 6px 12px; border-radius: 10px; border: 1px solid #f1f5f9; background: #f8fafc; color: #94a3b8; transition: all 0.2s; }
+        .progress-btn { font-size: 9px; font-weight: 900; padding: 6px 12px; border-radius: 10px; border: 1px solid #f1f5f9; background: #f8fafc; color: #94a3b8; transition: all 0.2s; }
         .progress-btn-active { background: #475569; color: white; border-color: #475569; }
 
-        .view-tab-btn { padding: 8px 16px; font-size: 12px; font-weight: 900; border-radius: 12px; transition: all 0.3s; color: #64748b; border: 1px solid transparent; }
-        .view-tab-btn-active { background: white; color: #4f46e5; border-color: #e2e8f0; box-shadow: 0 4px 12px -2px rgba(0,0,0,0.05); }
+        .view-tab-btn { padding: 10px 20px; font-size: 13px; font-weight: 900; border-radius: 12px; transition: all 0.3s; color: #64748b; border: 1px solid transparent; }
+        .view-tab-btn-active { background: white; color: #4f46e5; border-color: #e2e8f0; box-shadow: 0 4px 12px -2px rgba(0,0,0,0.08); }
 
-        .renewal-input { width: 80px; font-size: 14px; font-weight: 900; padding: 4px 8px; border-radius: 8px; border: 2px solid #f1f5f9; text-align: center; color: #475569; }
-        .date-select-pill { border: none; background: #f1f5f9; padding: 4px 12px; border-radius: 12px; font-weight: 800; cursor: pointer; outline: none; }
+        .renewal-input { width: 70px; font-size: 12px; font-weight: 900; padding: 4px 6px; border-radius: 6px; border: 2px solid #f1f5f9; text-align: center; }
+        .date-select-pill { border: none; background: #f1f5f9; padding: 4px 8px; border-radius: 8px; font-size: 11px; font-weight: 800; outline: none; }
         
-        .custom-checkbox { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #e2e8f0; appearance: none; cursor: pointer; transition: all 0.2s; position: relative; flex-shrink: 0; background: white; }
-        .custom-checkbox:checked { background: #10b981; border-color: #10b981; }
-        .custom-checkbox:checked::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 14px; font-weight: bold; }
+        .category-chip { background-color: #f1f5f9; color: #64748b; padding: 2px 8px; border-radius: 6px; font-size: 9px; font-weight: 900; display: inline-block; }
+        .name-remark-tag { background-color: #ecfdf5; color: #059669; padding: 1px 5px; border-radius: 4px; font-size: 9px; font-weight: 900; border: 1px solid #10b981; margin-left: 4px; display: inline-flex; align-items: center; vertical-align: middle; }
 
-        .category-chip { background-color: #f1f5f9; color: #64748b; padding: 3px 10px; border-radius: 8px; font-size: 10px; font-weight: 900; display: inline-block; }
-        .name-remark-tag { background-color: #ecfdf5; color: #059669; padding: 2px 6px; border-radius: 6px; font-size: 9px; font-weight: 900; border: 1px solid #10b981; margin-left: 6px; display: inline-flex; align-items: center; height: 18px; white-space: nowrap; vertical-align: middle; }
+        .attendance-record-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; background-color: #f8fafc; border-radius: 12px; border: 1px solid #f1f5f9; margin-bottom: 8px; }
+        .status-badge-small { font-size: 9px; font-weight: 900; padding: 2px 8px; border-radius: 6px; }
     </style>
 </head>
 <body class="overflow-x-hidden text-slate-800 text-left">
-    <div id="app" v-cloak class="min-h-screen pb-32 pt-4">
+    <div id="app" v-cloak class="min-h-screen pb-32 pt-2 sm:pt-4">
         
-        <!-- 底部響應式導覽列 -->
-        <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-[94%] sm:w-auto">
-            <nav class="glass-nav rounded-[2.5rem] px-2 py-2 flex items-center justify-around sm:justify-center sm:gap-2 text-left">
+        <!-- 底部導覽列 -->
+        <div class="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-40 w-[96%] sm:w-auto">
+            <nav class="glass-nav rounded-[2rem] px-1 sm:px-2 py-1.5 flex items-center justify-around sm:justify-center sm:gap-1">
                 <template v-if="isCoachMode">
                     <button v-for="item in navItems" :key="'nav-'+item.id" @click="activeTab = item.id"
-                        :class="['relative flex flex-col items-center gap-1 py-3 px-4 sm:px-10 rounded-full transition-all duration-300', activeTab === item.id ? 'text-white bg-indigo-600 shadow-xl shadow-indigo-200' : 'text-slate-400 hover:text-slate-600']">
-                        <i :data-lucide="item.icon" class="w-5 h-5"></i>
-                        <span class="text-[10px] font-black">{{ item.name }}</span>
+                        :class="['relative flex flex-col items-center gap-1 py-2.5 px-3 sm:px-8 rounded-full transition-all duration-300', activeTab === item.id ? 'text-white bg-indigo-600 shadow-lg shadow-indigo-200' : 'text-slate-400 hover:text-slate-600']">
+                        <i :data-lucide="item.icon" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        <span class="text-[9px] sm:text-[10px] font-black">{{ item.name }}</span>
                     </button>
-                    <button @click="logoutCoach" class="p-3 text-slate-400" title="登出管理員">
-                        <i data-lucide="lock-open" class="w-5 h-5"></i>
+                    <button @click="logoutCoach" class="p-2.5 text-slate-400">
+                        <i data-lucide="lock-open" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </button>
                 </template>
                 <template v-else>
-                    <div class="px-8 sm:px-12 py-3 text-indigo-600 font-black text-sm tracking-widest flex items-center gap-2">
+                    <div class="px-6 sm:px-12 py-2.5 text-indigo-600 font-black text-xs sm:text-sm tracking-widest flex items-center gap-2">
                         <i data-lucide="send" class="w-4 h-4"></i> 學生預約端
                     </div>
                     <button @click="showCoachAuth = true" class="p-3 text-slate-300">
-                        <i data-lucide="lock" class="w-5 h-5"></i>
+                        <i data-lucide="lock" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </button>
                 </template>
             </nav>
         </div>
 
-        <!-- 滿版主容器 -->
-        <main v-if="user" class="main-container px-4 sm:px-6 lg:px-10 2xl:px-14">
+        <main v-if="user" class="main-container">
             
-            <!-- 學生端：預約模式 (以週為單位) -->
-            <section v-if="!isCoachMode || activeTab === 'booking'" class="space-y-6 animate-in fade-in duration-300 pb-10 text-left">
-                <div class="bg-indigo-600 text-white p-8 sm:p-12 lg:p-16 rounded-[3.5rem] shadow-2xl relative overflow-hidden">
-                    <div class="relative z-10">
-                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black mb-3">課程預約系統</h2>
-                        <p class="text-indigo-100 text-sm sm:text-base font-bold opacity-90">雲端即時同步，請選取您的預約時間。</p>
+            <!-- 學生預約端 -->
+            <section v-if="!isCoachMode || activeTab === 'booking'" class="space-y-4 sm:space-y-6 animate-in fade-in duration-300 pb-10">
+                <div class="bg-indigo-600 text-white p-6 sm:p-12 rounded-[2.5rem] sm:rounded-[3.5rem] shadow-2xl relative overflow-hidden">
+                    <div class="relative z-10 text-left">
+                        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-black mb-1">課程預約系統</h2>
+                        <p class="text-indigo-100 text-[10px] sm:text-base font-bold opacity-90">雲端即時同步，選取預約時間。</p>
                     </div>
-                    <i data-lucide="calendar-heart" class="absolute -right-8 -bottom-8 w-64 h-64 sm:w-96 sm:h-96 opacity-10 rotate-12"></i>
+                    <i data-lucide="calendar-heart" class="absolute -right-6 -bottom-6 w-48 h-48 sm:w-96 sm:h-96 opacity-10 rotate-12"></i>
                 </div>
 
-                <div class="bg-white p-6 sm:p-10 rounded-[3.5rem] border shadow-sm space-y-6">
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div class="flex items-center bg-slate-50 rounded-2xl p-1 border w-full sm:w-auto">
-                            <button @click="changeViewPeriod(-1)" class="p-3 hover:bg-white rounded-xl text-slate-400 transition-all"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
-                            <div class="px-6 text-sm lg:text-base font-black text-slate-700 text-center flex-1 sm:min-w-[220px] uppercase">{{ weekRangeLabel }}</div>
-                            <button @click="changeViewPeriod(1)" class="p-3 hover:bg-white rounded-xl text-slate-400 transition-all"><i data-lucide="chevron-right" class="w-6 h-6"></i></button>
+                <div class="bg-white p-3 sm:p-10 rounded-[2.5rem] border shadow-sm space-y-4">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <div class="flex items-center bg-slate-50 rounded-xl p-1 border w-full sm:w-auto">
+                            <button @click="changeViewPeriod(-1)" class="p-2 hover:bg-white rounded-lg text-slate-400"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                            <div class="px-3 text-xs lg:text-base font-black text-slate-700 text-center flex-1 sm:min-w-[200px] uppercase">{{ weekRangeLabel }}</div>
+                            <button @click="changeViewPeriod(1)" class="p-2 hover:bg-white rounded-lg text-slate-400"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
                         </div>
                         <button @click="goToToday" class="w-full sm:w-auto text-sm font-black text-indigo-600 px-8 py-3.5 bg-indigo-50/50 rounded-2xl">返回本週</button>
                     </div>
                     
                     <div class="week-scroll-container">
-                        <div v-for="day in currentWeekDays" :key="'s-wk-'+day.date" class="week-column bg-slate-50/50 rounded-[2.5rem] p-3 flex flex-col border border-transparent transition-all" :class="{'bg-indigo-50/50 border-indigo-100 ring-2 ring-indigo-50': day.isToday}">
-                            <div class="text-center py-6 mb-4 border-b border-slate-100/50">
-                                <p class="text-[10px] font-black text-slate-400 uppercase mb-2">{{ day.name }}</p>
-                                <p :class="['text-2xl font-black', day.isToday ? 'text-indigo-600' : 'text-slate-700']">{{ day.dayNum }}</p>
+                        <div v-for="day in currentWeekDays" :key="'s-wk-'+day.date" class="week-column bg-slate-50/50 rounded-[1.5rem] sm:rounded-[2.5rem] p-2 sm:p-4 flex flex-col border border-transparent transition-all" :class="{'bg-indigo-50/50 border-indigo-100 ring-2 ring-indigo-50': day.isToday}">
+                            <div class="text-center py-4 mb-2 border-b border-slate-100/50 text-center text-center">
+                                <p class="text-[9px] font-black text-slate-400 uppercase mb-1">{{ day.name }}</p>
+                                <p :class="['text-2xl font-black text-center', day.isToday ? 'text-indigo-600' : 'text-slate-700']">{{ day.dayNum }}</p>
                             </div>
-                            <div class="space-y-2 overflow-y-auto max-h-[500px] custom-scrollbar px-1 pb-4 text-center">
-                                <div v-if="isFullDayVacation(day.date)" class="flex flex-col items-center justify-center py-12 gap-2 opacity-60 text-red-500 font-bold">
-                                    <i data-lucide="coffee" class="w-6 mx-auto text-red-500"></i><span class="nowrap text-xs text-red-500 font-black">教練休假中</span>
+                            <div class="space-y-2 overflow-y-auto max-h-[400px] custom-scrollbar px-0.5 pb-2 text-center text-center">
+                                <div v-if="isFullDayVacation(day.date)" class="flex flex-col items-center justify-center py-10 gap-2 opacity-60 text-red-500 font-bold">
+                                    <i data-lucide="coffee" class="w-5 mx-auto"></i><span class="text-[9px] font-black">休假中</span>
                                 </div>
-                                <div v-else-if="getAvailableSlots(day.date).length > 0" class="grid grid-cols-1 gap-1.5 text-center">
+                                <div v-else-if="getAvailableSlots(day.date).length > 0" class="grid grid-cols-1 gap-2 text-center">
                                     <button v-for="slot in getAvailableSlots(day.date)" :key="'slot-'+day.date+'-'+slot" @click="triggerBooking(slot, day.date)" class="w-full available-time-text block shadow-sm">{{ slot }}</button>
                                 </div>
-                                <div v-else class="text-center py-12 opacity-30 italic text-[10px] font-bold">預約已滿</div>
+                                <div v-else class="text-center py-10 opacity-30 italic text-[9px] font-bold">已滿</div>
                             </div>
                         </div>
                     </div>
@@ -153,119 +163,118 @@
 
             <!-- 教練管理端 -->
             <template v-if="isCoachMode && activeTab !== 'booking'">
-                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-8 px-2 text-left">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 px-1">
                     <div class="flex flex-col">
-                        <h2 class="text-3xl lg:text-4xl font-black text-slate-900 leading-tight">{{ pageTitle }}</h2>
-                        <div :class="['sync-pill mt-3 shadow-sm font-black w-fit', syncStatus === 'synced' ? 'synced' : 'syncing']">
-                            <i :data-lucide="syncStatus === 'synced' ? 'cloud-check' : 'refresh-cw'" :class="['w-3.5 h-3.5', syncStatus === 'syncing' ? 'animate-spin-custom' : '']" @click="manualSync"></i>
-                            <span>雲端數據對齊中</span>
+                        <h2 class="text-2xl sm:text-4xl font-black text-slate-900 leading-tight">{{ pageTitle }}</h2>
+                        <div :class="['sync-pill mt-2 shadow-sm font-black w-fit', syncStatus === 'synced' ? 'synced' : 'syncing']">
+                            <i :data-lucide="syncStatus === 'synced' ? 'cloud-check' : 'refresh-cw'" :class="['w-3 h-3', syncStatus === 'syncing' ? 'animate-spin-custom' : '']" @click="manualSync"></i>
+                            <span class="text-[9px]">雲端數據對齊中</span>
                         </div>
                     </div>
                     
-                    <div class="flex flex-wrap items-center gap-3">
-                        <div v-if="activeTab === 'schedule'" class="flex bg-white p-1 rounded-xl border shadow-sm mr-2">
-                            <button @click="calendarView = 'week'" :class="['px-6 py-2 text-xs font-black rounded-lg transition-all', calendarView === 'week' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-400']">週</button>
-                            <button @click="calendarView = 'month'" :class="['px-6 py-2 text-xs font-black rounded-lg transition-all', calendarView === 'month' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-400']">月</button>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <div v-if="activeTab === 'schedule'" class="flex bg-white p-1 rounded-xl border shadow-sm">
+                            <button @click="calendarView = 'week'" :class="['px-4 py-1.5 text-[10px] font-black rounded-lg transition-all', calendarView === 'week' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-400']">週</button>
+                            <button @click="calendarView = 'month'" :class="['px-4 py-1.5 text-[10px] font-black rounded-lg transition-all', calendarView === 'month' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-400']">月</button>
                         </div>
-                        <button v-if="activeTab === 'schedule'" @click="openAddModal" class="action-btn text-left"><i data-lucide="plus"></i><span>錄入行程</span></button>
-                        <button v-if="activeTab === 'students'" @click="openStudentModal" class="action-btn text-left"><i data-lucide="plus"></i><span>新增學員</span></button>
-                        <button v-if="activeTab === 'leads'" @click="openLeadModal" class="action-btn text-left"><i data-lucide="user-plus"></i><span>新增對象</span></button>
+                        <button v-if="activeTab === 'schedule'" @click="openAddModal" class="action-btn text-left py-2 px-4 rounded-xl"><i data-lucide="plus" class="w-4 h-4"></i><span class="text-xs">錄入行程</span></button>
+                        <button v-if="activeTab === 'students'" @click="openStudentModal" class="action-btn text-left py-2 px-4 rounded-xl"><i data-lucide="plus" class="w-4 h-4"></i><span class="text-xs">新增學員</span></button>
+                        <button v-if="activeTab === 'leads'" @click="openLeadModal" class="action-btn text-left py-2 px-4 rounded-xl"><i data-lucide="user-plus" class="w-4 h-4"></i><span class="text-xs">新增對象</span></button>
                     </div>
                 </div>
 
-                <!-- 1. 教練行程排程 (月曆與週曆切換) -->
-                <section v-if="activeTab === 'schedule'" class="space-y-10 animate-in fade-in duration-300 text-left">
-                    <div class="bg-white p-4 sm:p-8 rounded-[3rem] border shadow-sm overflow-hidden shadow-xl w-full">
-                        <div class="flex items-center justify-between mb-8 px-1">
-                            <div v-if="calendarView === 'month'" class="flex items-center gap-2">
-                                <select v-model.number="selectedYear" class="date-select-pill text-xs font-black"><option v-for="year in yearOptions" :key="year" :value="year">{{ year }}年</option></select>
-                                <select v-model.number="selectedMonth" class="date-select-pill text-xs font-black"><option v-for="(m, idx) in monthLabelsArr" :key="idx" :value="idx">{{ m }}</option></select>
+                <!-- 1. 教練行程排程 -->
+                <section v-if="activeTab === 'schedule'" class="space-y-6 animate-in fade-in duration-300">
+                    <div class="bg-white p-2 sm:p-6 rounded-[2rem] sm:rounded-[3rem] border shadow-sm overflow-hidden shadow-xl w-full text-left">
+                        <div class="flex items-center justify-between mb-4 px-1">
+                            <div v-if="calendarView === 'month'" class="flex items-center gap-1.5">
+                                <select v-model.number="selectedYear" class="date-select-pill"><option v-for="year in yearOptions" :key="year" :value="year">{{ year }}</option></select>
+                                <select v-model.number="selectedMonth" class="date-select-pill"><option v-for="(m, idx) in monthLabelsArr" :key="idx" :value="idx">{{ m }}</option></select>
                             </div>
-                            <div v-else class="flex items-center bg-slate-50 rounded-2xl p-1 border">
-                                <button @click="changeViewPeriod(-1)" class="p-2 hover:bg-white rounded-xl text-slate-400 transition-all text-left"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
-                                <div class="px-4 text-xs font-black text-slate-700 text-center min-w-[180px] sm:min-w-[240px]">{{ weekRangeLabel }}</div>
-                                <button @click="changeViewPeriod(1)" class="p-2 hover:bg-white rounded-xl text-slate-400 transition-all text-left"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                            <div v-else class="flex items-center bg-slate-50 rounded-lg p-0.5 border">
+                                <button @click="changeViewPeriod(-1)" class="p-1.5 hover:bg-white rounded-md text-slate-400 transition-all"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                                <div class="px-2 text-[10px] font-black text-slate-700 text-center min-w-[150px] sm:min-w-[200px] uppercase">{{ weekRangeLabel }}</div>
+                                <button @click="changeViewPeriod(1)" class="p-1.5 hover:bg-white rounded-md text-slate-400 transition-all"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
                             </div>
-                            <button @click="goToToday" class="text-xs font-black text-indigo-600 bg-indigo-50 px-5 py-2.5 rounded-xl">今日</button>
+                            <button @click="goToToday" class="text-[10px] font-black text-indigo-600 bg-indigo-50 px-4 py-2 rounded-lg">今日</button>
                         </div>
                         
-                        <!-- 月曆視圖 -->
+                        <!-- 月曆視圖 (含姓名+時段) -->
                         <div v-if="calendarView === 'month'">
-                            <div class="calendar-grid mb-2 text-center text-[10px] font-black text-slate-300 uppercase">
+                            <div class="calendar-grid mb-1 text-center text-[9px] font-black text-slate-300 uppercase">
                                 <div v-for="w in dayNamesShort" :key="'w-ch-'+w">{{ w.replace('週', '') }}</div>
                             </div>
-                            <div class="calendar-grid gap-px bg-slate-100 rounded-3xl overflow-hidden border border-slate-100 shadow-inner">
+                            <div class="calendar-grid gap-px bg-slate-100 rounded-2xl overflow-hidden border border-slate-100 shadow-inner">
                                 <div v-for="empty in viewMonthPadding" :key="'empty-ch-'+empty" class="bg-slate-50/50 aspect-square"></div>
                                 <div v-for="day in viewDaysInMonth" :key="'ch-d-'+day.date" @click="selectedDate = day.date"
-                                    class="bg-white min-h-[120px] lg:min-h-[160px] p-2 flex flex-col cursor-pointer transition-all"
+                                    class="bg-white p-1 flex flex-col cursor-pointer transition-all h-[100px] sm:h-[130px] lg:h-[160px]"
                                     :class="[selectedDate === day.date ? 'ring-2 ring-inset ring-indigo-600 bg-indigo-50/10' : '']">
-                                    <span class="text-[11px] font-black mb-2" :class="day.isToday ? 'text-indigo-600 underline' : 'text-slate-400'">{{ day.dayNum }}</span>
-                                    <div class="space-y-1 overflow-y-auto custom-scrollbar pr-0.5 flex-1">
+                                    <span class="text-[9px] sm:text-[11px] font-black mb-1" :class="day.isToday ? 'text-indigo-600 underline' : 'text-slate-400'">{{ day.dayNum }}</span>
+                                    <div class="space-y-1 overflow-y-auto custom-scrollbar pr-0.5 flex-1 text-left">
                                         <div v-for="course in getDayCourses(day.date)" :key="'coach-c-'+course?.id"
                                             @click.stop="editCourse(course)"
                                             class="course-item-compact"
                                             :class="[(course?.isVacation) ? 'bg-red-50 border-red-500 text-red-700' : (course?.status === 'cancelled' ? 'bg-slate-50 border-slate-300 opacity-40' : getLightBgClass(course?.color) + ' ' + getBorderClass(course?.color))]">
                                             <span class="truncate flex-1 font-black">{{ course?.student }}</span>
-                                            <span v-if="course?.time !== '全天'" class="shrink-0 opacity-60 text-[9px] font-black ml-1">{{ course?.time }}</span>
+                                            <span v-if="course?.time !== '全天'" class="text-[7px] font-bold opacity-60 ml-0.5 text-right">{{ course?.time }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 週曆視圖 (修復恢復) -->
+                        <!-- 週曆視圖 -->
                         <div v-else class="week-scroll-container">
                             <div v-for="day in currentWeekDays" :key="'coach-wk-'+day.date" @click="selectedDate = day.date"
-                                class="week-column bg-white min-h-[500px] lg:min-h-[650px] p-4 flex flex-col border transition-all rounded-[2.5rem]"
-                                :class="selectedDate === day.date ? 'ring-2 ring-inset ring-indigo-600 shadow-xl' : 'border-slate-50'">
-                                <div class="text-center mb-4 border-b border-slate-50 pb-4">
-                                    <p class="text-slate-400 text-[10px] font-black uppercase mb-1">{{ day.name }}</p>
-                                    <p class="text-3xl font-black text-slate-700">{{ day.dayNum }}</p>
+                                class="week-column bg-white min-h-[400px] lg:min-h-[600px] p-2 sm:p-4 flex flex-col border transition-all rounded-[1.5rem] sm:rounded-[2.5rem]"
+                                :class="selectedDate === day.date ? 'ring-2 ring-inset ring-indigo-600 shadow-lg' : 'border-slate-50'">
+                                <div class="text-center mb-3 border-b border-slate-50 pb-2">
+                                    <p class="text-slate-400 text-[9px] font-black uppercase">{{ day.name }}</p>
+                                    <p class="text-2xl font-black text-slate-700">{{ day.dayNum }}</p>
                                 </div>
-                                <div class="space-y-3 flex-1 overflow-y-auto custom-scrollbar">
+                                <div class="space-y-2 flex-1 overflow-y-auto custom-scrollbar text-left">
                                     <div v-for="course in getDayCourses(day.date)" :key="'cw-item-'+course?.id"
                                         @click.stop="editCourse(course)"
-                                        class="course-item-compact p-4 rounded-2xl text-[12px] border-l-4 shadow-sm flex-col items-start gap-1.5"
+                                        class="course-item-compact p-2 sm:p-3 rounded-xl border-l-4 shadow-sm flex-col items-start gap-1"
                                         :class="[(course?.isVacation) ? 'bg-red-50 border-red-500 text-red-700' : (course?.status === 'cancelled' ? 'bg-slate-50 border-slate-300 opacity-40' : getLightBgClass(course?.color) + ' ' + getBorderClass(course?.color))]">
-                                        <span class="font-black w-full truncate text-sm text-left">{{ course?.student }}</span>
-                                        <span class="opacity-50 font-black w-full text-[10px] text-left">{{ course?.time }}</span>
+                                        <span class="font-black w-full truncate text-[10px] sm:text-xs">{{ course?.student }}</span>
+                                        <span class="opacity-50 font-black w-full text-[8px] sm:text-[9px]">{{ course?.time }}</span>
                                     </div>
-                                    <div v-if="getDayCourses(day.date).length === 0" class="py-12 text-center text-slate-300 italic font-black text-[10px]">無行程</div>
+                                    <div v-if="getDayCourses(day.date).length === 0" class="py-12 text-center text-slate-200 italic font-black text-[9px]">無行程</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 行程明細清單 -->
-                    <div class="mt-8 space-y-4 px-2 text-left">
-                        <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">詳細行程清單</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+                    <div class="mt-6 space-y-3 px-1 text-left">
+                        <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">今日及後續預約清單</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3">
                             <div v-for="item in (calendarView === 'month' ? monthlyFullSchedule : weeklyFullSchedule)" :key="'list-'+item.id" 
-                                class="group bg-white p-5 rounded-[2.2rem] border shadow-sm flex items-center justify-between hover:shadow-md transition-all text-left"
-                                :class="item.status === 'cancelled' ? 'opacity-50 grayscale' : ''">
-                                <div class="flex items-center gap-4 text-left">
-                                    <div class="w-14 h-14 rounded-2xl bg-slate-50 border flex flex-col items-center justify-center">
-                                        <p class="text-[9px] font-black text-slate-400">{{ item.date?.split('-')?.[1] }}/</p>
-                                        <p class="text-lg font-black text-slate-800 mt-1">{{ item.date?.split('-')?.[2] }}</p>
+                                class="group bg-white p-4 rounded-2xl border shadow-sm flex items-center justify-between hover:shadow-md transition-all"
+                                :class="[item.status === 'cancelled' ? 'opacity-50 grayscale' : '']">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-11 h-11 rounded-xl bg-slate-50 border flex flex-col items-center justify-center">
+                                        <p class="text-[8px] font-black text-slate-400">{{ item.date?.split('-')?.[1] }}/</p>
+                                        <p class="text-base font-black text-slate-800">{{ item.date?.split('-')?.[2] }}</p>
                                     </div>
-                                    <div class="text-left">
+                                    <div>
                                         <div class="flex items-center gap-2">
-                                            <h4 class="font-black text-lg text-slate-800 text-left">{{ item.student }}</h4>
-                                            <span v-if="item.isVacation" class="badge bg-red-50 text-red-500 uppercase font-black text-[10px]">休假</span>
+                                            <h4 class="font-black text-sm text-slate-800">{{ item.student }}</h4>
+                                            <span v-if="item.isVacation" class="badge bg-red-50 text-red-500 font-black text-[8px] px-1.5 py-0.5 rounded">休假</span>
                                         </div>
-                                        <p class="text-xs font-bold mt-1.5 flex items-center gap-1 text-slate-400">
-                                            <i data-lucide="clock" class="w-3.5 h-3.5"></i> {{ bookingTimeDisplay(item.time) }}
+                                        <p class="text-[9px] font-bold mt-0.5 flex items-center gap-1 text-slate-400">
+                                            <i data-lucide="clock" class="w-3 h-3"></i> {{ bookingTimeDisplay(item.time) }}
                                         </p>
-                                        <div v-if="!item.isVacation" class="flex gap-2 mt-3">
-                                            <button @click="updateCourseStatus(item.id, 'confirmed')" :class="['status-pill', item.status === 'confirmed' ? 'status-pill-active' : '']">已出席</button>
-                                            <button @click="updateCourseStatus(item.id, 'no-show')" :class="['status-pill', item.status === 'no-show' ? 'status-pill-no-show' : '']">未出席</button>
+                                        <div v-if="!item.isVacation" class="flex gap-1.5 mt-2">
+                                            <button @click="updateCourseStatus(item.id, 'confirmed')" :class="['status-pill', item.status === 'confirmed' ? 'status-pill-active' : '']">已到</button>
+                                            <button @click="updateCourseStatus(item.id, 'no-show')" :class="['status-pill', item.status === 'no-show' ? 'status-pill-no-show' : '']">未到</button>
                                             <button @click="updateCourseStatus(item.id, 'cancelled')" :class="['status-pill', item.status === 'cancelled' ? 'status-pill-cancelled' : '']">取消</button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button @click="editCourse(item)" class="p-2 text-slate-300 hover:text-indigo-600 transition-colors"><i data-lucide="pencil" class="w-4 h-4"></i></button>
-                                    <button @click="deleteCourse(item.id)" class="p-2 text-slate-300 hover:text-red-500 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button @click="editCourse(item)" class="p-1.5 text-slate-300 hover:text-indigo-600 transition-colors"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                                    <button @click="deleteCourse(item.id)" class="p-1.5 text-slate-300 hover:text-red-500 transition-colors"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -274,62 +283,53 @@
 
                 <!-- 2. 學員名單分頁 -->
                 <section v-if="activeTab === 'students'" class="animate-in fade-in duration-300 pb-10 text-left">
-                    <div class="flex items-center justify-between px-2 mb-6">
-                        <div class="flex bg-slate-100 p-1 rounded-2xl">
+                    <div class="flex items-center justify-between px-1 mb-6 text-left">
+                        <div class="flex bg-slate-100 p-1.5 rounded-xl">
                             <button @click="studentViewMode = 'active'" :class="['view-tab-btn', studentViewMode === 'active' ? 'view-tab-btn-active shadow-sm' : '']">進行中</button>
                             <button @click="studentViewMode = 'archive'" :class="['view-tab-btn', studentViewMode === 'archive' ? 'view-tab-btn-active shadow-sm' : '']">封存明細</button>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 px-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 px-1 text-left">
                         <div v-for="student in (studentViewMode === 'active' ? activeStudents : archivedStudents)" :key="'stu-'+student.id" 
-                            class="bg-white p-6 sm:p-8 rounded-[3rem] border-2 shadow-sm flex flex-col hover:shadow-xl transition-all text-left"
-                            :class="student.isArchived ? 'border-slate-100 opacity-80' : 'border-transparent'">
-                            <div class="flex items-center justify-between mb-6">
+                            class="bg-white p-6 rounded-[2rem] border shadow-sm flex flex-col hover:shadow-xl transition-all"
+                            :class="[student.isArchived ? 'border-slate-100 opacity-80' : 'border-transparent']">
+                            <div class="flex items-center justify-between mb-4">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-3xl">{{ student?.name?.charAt(0) }}</div>
-                                    <div>
-                                        <h3 class="font-black text-slate-800 text-xl flex items-center">
+                                    <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-2xl">{{ student?.name?.charAt(0) }}</div>
+                                    <div class="text-left">
+                                        <h3 class="font-black text-slate-800 text-lg flex items-center">
                                             {{ student?.name }}
                                             <span v-if="student.source === '開發成功轉入' || student.category === '開發轉入'" class="name-remark-tag">開發轉入</span>
                                         </h3>
-                                        <div class="flex flex-wrap gap-2 mt-2">
-                                            <span class="text-[10px] font-bold text-slate-400 uppercase text-left">{{ student.isArchived ? '已結業' : '學員' }}</span>
-                                            <span v-if="student.category && student.category !== '開發轉入'" class="category-chip text-left">{{ student.category }}</span>
+                                        <div class="flex flex-wrap gap-1.5 mt-1.5 text-left">
+                                            <span class="text-[10px] font-bold text-slate-400 uppercase">{{ student.isArchived ? '已結業' : '學員' }}</span>
+                                            <span v-if="student.category && student.category !== '開發轉入'" class="category-chip text-[9px]">{{ student.category }}</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flex gap-1">
-                                    <button @click="editStudent(student)" class="p-2 text-slate-300 hover:text-indigo-600 transition-colors text-left"><i data-lucide="pencil" class="w-4 h-4"></i></button>
-                                    <button @click="deleteStudent(student.id)" class="p-2 text-slate-300 hover:text-red-500 transition-colors text-left"><i data-lucide="trash-2" class="w-4 h-4 text-left"></i></button>
+                                <div class="flex items-center gap-1">
+                                    <button @click="openAttendanceDetail(student)" class="p-2 text-indigo-400 hover:text-indigo-600 transition-colors" title="出席明細">
+                                        <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                                    </button>
+                                    <button @click="editStudent(student)" class="p-2 text-slate-300 hover:text-slate-600"><i data-lucide="pencil" class="w-4 h-4"></i></button>
+                                    <button @click="deleteStudent(student.id)" class="p-2 text-slate-300 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                                 </div>
                             </div>
                             
-                            <!-- 統計網格 -->
-                            <div class="grid grid-cols-4 gap-2 py-6 border-t text-center text-[11px] font-black">
-                                <div><p class="text-slate-400 mb-1 uppercase text-left">購買</p><p class="text-sm">{{ student?.totalLessons }}</p></div>
+                            <div class="grid grid-cols-4 gap-1 py-5 border-t text-center text-[10px] font-black">
+                                <div><p class="text-slate-400 mb-1 uppercase">購買</p><p class="text-sm">{{ student?.totalLessons }}</p></div>
                                 <div><p class="text-slate-400 mb-1">已上</p><p class="text-sm text-indigo-600">{{ getStudentStats(student?.name).used }}</p></div>
-                                <div><p class="text-emerald-500 mb-1 text-left">出席率</p><p class="text-sm text-emerald-600">{{ getStudentStats(student?.name).rate }}%</p></div>
+                                <div><p class="text-emerald-500 mb-1">出席%</p><p class="text-sm text-emerald-600">{{ getStudentStats(student?.name).rate }}%</p></div>
                                 <div><p class="text-slate-400 mb-1">剩餘</p><p :class="['text-sm', getStudentStats(student?.name).remaining <= 2 ? 'text-red-500' : 'text-slate-700']">{{ getStudentStats(student?.name).remaining }}</p></div>
                             </div>
 
-                            <div class="bg-white/60 rounded-3xl p-5 border border-slate-100 mt-4 flex-1 text-left">
-                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 text-left">出席歷史紀錄</p>
-                                <div class="max-h-[120px] overflow-y-auto custom-scrollbar pr-1">
-                                    <div v-for="record in getStudentRecords(student.name)" :key="record.id" class="record-badge text-left">
-                                        <span class="font-black text-[10px]">{{ record.date }}</span>
-                                        <span class="opacity-60 text-[9px]">{{ record.time }}</span>
-                                    </div>
-                                    <div v-if="getStudentRecords(student.name).length === 0" class="text-center py-6 text-slate-300 text-[11px] font-bold italic">尚無出席紀錄</div>
-                                </div>
-                            </div>
-
-                            <div class="mt-6 pt-4 border-t border-slate-50 space-y-4">
-                                <div v-if="!student.isArchived" class="flex items-center gap-2 text-left">
+                            <div class="mt-4 pt-4 border-t border-slate-50 space-y-4">
+                                <div v-if="!student.isArchived" class="flex items-center gap-2">
                                     <input type="number" v-model.number="student.renewalLessons" placeholder="+堂" class="renewal-input">
-                                    <button @click="renewStudent(student)" class="flex-1 bg-indigo-600 text-white text-[11px] font-black py-3 rounded-xl">續約</button>
-                                    <button @click="archiveStudent(student.id, true)" class="bg-slate-100 text-slate-500 text-[11px] font-black px-4 py-3 rounded-xl">不續約</button>
+                                    <button @click="renewStudent(student)" class="flex-1 bg-indigo-600 text-white text-[10px] font-black py-3 rounded-xl text-center">續約</button>
+                                    <button @click="archiveStudent(student.id, true)" class="bg-slate-100 text-slate-500 text-[10px] font-black px-4 py-3 rounded-xl text-center">封存</button>
                                 </div>
-                                <button v-else @click="archiveStudent(student.id, false)" class="w-full bg-slate-800 text-white text-[11px] font-black py-3 rounded-xl">恢復至名單</button>
+                                <button v-else @click="archiveStudent(student.id, false)" class="w-full bg-slate-800 text-white text-[10px] font-black py-3 rounded-xl text-center">恢復至名單</button>
                             </div>
                         </div>
                     </div>
@@ -337,56 +337,56 @@
                 
                 <!-- 3. 開發進度分頁 -->
                 <section v-if="activeTab === 'leads'" class="space-y-6 animate-in fade-in duration-300 pb-10 text-left">
-                    <div class="flex items-center justify-between px-2 mb-4 text-left">
-                        <div class="flex bg-slate-100 p-1 rounded-2xl">
+                    <div class="flex items-center justify-between px-1 mb-6">
+                        <div class="flex bg-slate-100 p-1.5 rounded-xl">
                             <button @click="leadViewMode = 'active'" :class="['view-tab-btn', leadViewMode === 'active' ? 'view-tab-btn-active shadow-sm' : '']">進行中</button>
                             <button @click="leadViewMode = 'archive'" :class="['view-tab-btn', leadViewMode === 'archive' ? 'view-tab-btn-active shadow-sm' : '']">已成功名單</button>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 px-2 text-left">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 px-1 text-left">
                         <div v-for="lead in (leadViewMode === 'active' ? activeLeads : archivedLeads)" :key="'lead-'+lead.id" 
-                            class="group bg-white p-8 rounded-[3rem] border-2 shadow-sm flex flex-col gap-6 hover:shadow-xl transition-all text-left"
-                            :class="lead.status === '已開發成功' ? 'border-emerald-100 bg-emerald-50/10' : 'border-transparent text-left'">
-                            <div class="flex items-start justify-between text-left">
-                                <div class="flex items-center gap-4 text-left">
+                            class="group bg-white p-6 sm:p-8 rounded-[2rem] border-2 shadow-sm flex flex-col gap-6 hover:shadow-xl transition-all"
+                            :class="[lead.status === '已開發成功' || lead.status === '成功' ? 'border-emerald-100 bg-emerald-50/10' : 'border-transparent']">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-center gap-4">
                                     <input type="checkbox" :checked="lead.isCompleted" @change="toggleLeadComplete(lead)" class="custom-checkbox">
                                     <div class="text-left">
                                         <h3 class="font-black text-slate-800 text-xl">{{ lead?.name }}</h3>
                                         <div class="space-y-1 mt-2 text-left">
-                                            <p v-if="lead?.phone" class="text-[11px] text-slate-400 font-bold flex items-center gap-1"><i data-lucide="phone" class="w-3 h-3"></i>{{ lead.phone }}</p>
-                                            <p v-if="lead?.lineMsg" class="text-[11px] text-indigo-500 font-bold flex items-center gap-1"><i data-lucide="message-circle" class="w-3 h-3"></i>{{ lead.lineMsg }}</p>
+                                            <p v-if="lead?.phone" class="text-[9px] text-slate-400 font-bold flex items-center gap-1"><i data-lucide="phone" class="w-3 h-3"></i>{{ lead.phone }}</p>
+                                            <p v-if="lead?.lineMsg" class="text-[9px] text-indigo-500 font-bold flex items-center gap-1 text-left"><i data-lucide="message-circle" class="w-3 h-3"></i>{{ lead.lineMsg }}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <span :class="['badge px-3 py-1 font-black text-[11px] uppercase tracking-wider', getLeadStatusClass(lead.status)]">{{ lead.status }}</span>
+                                <span :class="['badge px-3 py-1 font-black text-[9px] uppercase tracking-wider', getLeadStatusClass(lead.status)]">{{ lead.status }}</span>
                             </div>
 
-                            <div class="bg-white/60 rounded-3xl p-5 flex-1 border border-slate-100 text-left">
-                                <div class="flex justify-between items-center mb-4 text-left">
-                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">備忘錄紀事</p>
-                                    <button @click="addProgressNote(lead)" class="text-[10px] text-indigo-600 font-black hover:underline">+ 新增紀錄</button>
+                            <div class="bg-white/60 rounded-2xl p-5 flex-1 border border-slate-100 text-left">
+                                <div class="flex justify-between items-center mb-4">
+                                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">備忘錄</p>
+                                    <button @click="addProgressNote(lead)" class="text-[9px] text-indigo-600 font-black hover:underline">+ 新增</button>
                                 </div>
-                                <div v-if="lead.notes && lead.notes.length" class="space-y-4 max-h-[150px] overflow-y-auto custom-scrollbar pr-2">
+                                <div v-if="lead.notes && lead.notes.length" class="space-y-4 max-h-[150px] overflow-y-auto custom-scrollbar pr-2 text-left text-left">
                                     <div v-for="(note, idx) in lead.notes" :key="'n-'+idx" class="border-l-2 border-indigo-200 pl-3">
-                                        <p class="text-[11px] text-slate-700 font-bold leading-relaxed">{{ note.content }}</p>
-                                        <p class="text-[9px] text-slate-400 font-bold mt-1 uppercase">{{ note.date }}</p>
+                                        <p class="text-[11px] text-slate-700 font-bold leading-relaxed text-left">{{ note.content }}</p>
+                                        <p class="text-[8px] text-slate-400 font-bold mt-1 uppercase text-left">{{ note.date }}</p>
                                     </div>
                                 </div>
-                                <div v-else class="text-center py-6 text-slate-300 text-[11px] font-bold italic">目前尚無備忘紀錄</div>
+                                <div v-else class="text-center py-6 text-slate-300 text-[10px] font-bold italic text-center">目前尚無備忘</div>
                             </div>
 
-                            <div class="space-y-3 pt-2 text-left">
+                            <div class="space-y-2 pt-1 text-left">
                                 <div class="flex flex-wrap gap-1.5 text-left">
-                                    <button v-for="st in ['待聯繫', '聯繫中', '已約體驗', '已開發成功', '暫不考慮']" :key="st"
-                                        @click="triggerLeadStatusUpdate(lead, st)"
-                                        :class="['progress-btn', lead.status === st ? 'progress-btn-active' : '']">
+                                    <button v-for="st in ['待聯繫', '聯繫中', '體驗', '成功', '不考慮']" :key="st"
+                                        @click="triggerLeadStatusUpdate(lead, st === '體驗' ? '已約體驗' : st === '成功' ? '已開發成功' : st === '不考慮' ? '暫不考慮' : st)"
+                                        :class="['progress-btn', (lead.status === st || (st==='體驗' && lead.status==='已約體驗') || (st==='成功' && lead.status==='已開發成功') || (st==='不考慮' && lead.status==='暫不考慮')) ? 'progress-btn-active' : '']">
                                         {{ st }}
                                     </button>
                                 </div>
                             </div>
                             <div class="flex justify-end gap-1.5 pt-4 border-t border-slate-50 mt-auto text-right">
-                                <button @click="editLead(lead)" class="p-2 bg-slate-50 rounded-xl text-slate-400 hover:text-indigo-600 transition-colors text-left"><i data-lucide="pencil" class="w-4 h-4"></i></button>
-                                <button @click="deleteLead(lead.id)" class="p-2 bg-slate-50 rounded-xl text-slate-400 hover:text-red-500 transition-colors text-left"><i data-lucide="trash-2" class="w-4 h-4 text-left"></i></button>
+                                <button @click="editLead(lead)" class="p-2 bg-slate-50 rounded-xl text-slate-400 hover:text-indigo-600 transition-colors"><i data-lucide="pencil" class="w-4 h-4 text-left"></i></button>
+                                <button @click="deleteLead(lead.id)" class="p-2 bg-slate-50 rounded-xl text-slate-400 hover:text-red-500 transition-colors"><i data-lucide="trash-2" class="w-4 h-4 text-left"></i></button>
                             </div>
                         </div>
                     </div>
@@ -394,26 +394,73 @@
             </template>
         </main>
 
-        <!-- 管理員驗證與彈窗 (略) -->
-        <transition name="fade"><div v-if="showCoachAuth" class="fixed inset-0 z-[500] flex items-center justify-center p-6 text-center text-left"><div @click="showCoachAuth = false" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"></div><div class="relative bg-white p-12 rounded-[4rem] shadow-2xl max-w-sm w-full"><h3 class="text-2xl font-black mb-8 text-slate-900">管理員登入</h3><input v-model="coachPass" type="password" placeholder="管理密碼" class="w-full bg-slate-100 border-none rounded-2xl py-5 px-6 mb-8 text-center font-black text-xl focus:ring-2 focus:ring-indigo-600 text-slate-900"><div class="flex gap-4"><button @click="verifyCoach" class="flex-1 bg-slate-900 text-white py-5 rounded-2xl font-black active:scale-95 transition-all">確認</button><button @click="showCoachAuth = false" class="px-6 text-slate-400 font-bold">取消</button></div></div></div></transition>
+        <!-- 所有彈窗組件 -->
+        
+        <!-- 出席明細彈窗 -->
+        <transition name="fade">
+            <div v-if="showAttendanceModal" class="fixed inset-0 z-[700] flex items-center justify-center p-4">
+                <div @click="showAttendanceModal = false" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"></div>
+                <div class="relative w-full max-w-md bg-white rounded-[3rem] p-8 shadow-2xl animate-in zoom-in-95 text-left">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="text-left">
+                            <h3 class="text-2xl font-black text-slate-900">出席明細紀錄</h3>
+                            <p class="text-indigo-600 font-bold mt-1 text-sm">學員：{{ selectedStudentForAttendance?.name }}</p>
+                        </div>
+                        <button @click="showAttendanceModal = false" class="p-2 bg-slate-100 rounded-full active:scale-95"><i data-lucide="x" class="w-6 h-6"></i></button>
+                    </div>
+                    <div class="max-h-[60vh] overflow-y-auto custom-scrollbar pr-2">
+                        <div v-for="record in getStudentRecords(selectedStudentForAttendance?.name)" :key="record.id" class="attendance-record-item text-left">
+                            <div class="flex flex-col text-left">
+                                <span class="font-black text-sm text-slate-700">{{ record.date }}</span>
+                                <span class="text-xs font-bold text-slate-400">{{ record.time }}</span>
+                            </div>
+                            <span :class="['status-badge-small border text-left', record.status === 'confirmed' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-amber-50 text-amber-600 border-amber-100']">
+                                {{ record.status === 'confirmed' ? '已出席' : '未出席' }}
+                            </span>
+                        </div>
+                        <div v-if="getStudentRecords(selectedStudentForAttendance?.name).length === 0" class="text-center py-20 text-slate-300 font-black italic">尚無排課紀錄</div>
+                    </div>
+                </div>
+            </div>
+        </transition>
 
-        <transition name="fade"><div v-if="showAddModal" class="fixed inset-0 z-[550] flex items-center justify-center p-4 text-left"><div @click="showAddModal = false" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"></div><div class="relative w-full max-w-md bg-white rounded-[3.5rem] p-10 shadow-2xl border-4 border-slate-50 animate-in zoom-in-95 text-left"><div class="flex items-center justify-between mb-8 text-left"><div><h3 class="text-2xl font-black text-slate-900">錄入行程</h3></div><button @click="showAddModal = false" class="p-2 bg-slate-100 rounded-full active:scale-95 text-left"><i data-lucide="x" class="w-6 h-6 text-left"></i></button></div><div class="space-y-6 text-left">
-            <div class="flex bg-slate-100 p-1.5 rounded-2xl text-left"><button @click="newCourse.isVacation = false" :class="['flex-1 py-3 rounded-xl text-xs font-black transition-all text-center', !newCourse.isVacation ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400']">學生課程</button><button @click="newCourse.isVacation = true" :class="['flex-1 py-3 rounded-xl text-xs font-black transition-all text-center', newCourse.isVacation ? 'bg-white shadow-sm text-red-600' : 'text-slate-400']">教練休假</button></div>
-            <div v-if="!newCourse.isVacation"><label class="text-[10px] font-black text-slate-400 mb-2 block uppercase text-left">學員姓名</label><input v-model="newCourse.student" type="text" class="w-full bg-slate-100 border-none rounded-2xl py-4 px-6 font-black text-lg"></div>
-            <div class="grid grid-cols-2 gap-4 text-left"><div><label class="text-[10px] font-black text-slate-400 mb-2 block uppercase">日期</label><input v-model="newCourse.date" type="date" class="w-full bg-slate-100 border-none rounded-2xl py-4 px-4 font-black text-sm text-left"></div><div><label class="text-[10px] font-black text-slate-400 mb-2 block uppercase">時段</label><select v-model="newCourse.time" class="w-full bg-slate-100 border-none rounded-2xl py-4 px-4 font-black text-sm text-left"><option value="全天">全天</option><option v-for="slot in availableSlotsRaw" :key="slot" :value="slot">{{ slot }}</option></select></div></div>
+        <transition name="fade"><div v-if="showCoachAuth" class="fixed inset-0 z-[500] flex items-center justify-center p-4 text-center"><div @click="showCoachAuth = false" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"></div><div class="relative bg-white p-10 rounded-[3.5rem] shadow-2xl max-w-sm w-full"><h3 class="text-xl font-black mb-8 text-slate-900">管理員登入</h3><input v-model="coachPass" type="password" placeholder="管理密碼" class="w-full bg-slate-100 border-none rounded-2xl py-5 px-6 mb-8 text-center font-black text-xl focus:ring-2 focus:ring-indigo-600 text-slate-900"><div class="flex gap-4"><button @click="verifyCoach" class="flex-1 bg-slate-900 text-white py-5 rounded-2xl font-black active:scale-95 transition-all text-center">確認</button><button @click="showCoachAuth = false" class="px-6 text-slate-400 font-bold text-center">取消</button></div></div></div></transition>
+
+        <transition name="fade"><div v-if="showAddModal" class="fixed inset-0 z-[550] flex items-center justify-center p-2 text-left"><div @click="showAddModal = false" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"></div><div class="relative w-full max-w-md bg-white rounded-[2.5rem] p-8 shadow-2xl animate-in zoom-in-95 text-left"><div class="flex items-center justify-between mb-6"><div><h3 class="text-xl font-black text-slate-900 text-left">錄入行程</h3></div><button @click="showAddModal = false" class="p-2 bg-slate-100 rounded-full active:scale-95 text-left"><i data-lucide="x" class="w-6 h-6 text-left"></i></button></div><div class="space-y-5 text-left">
+            <div class="flex bg-slate-100 p-1.5 rounded-xl"><button @click="newCourse.isVacation = false" :class="['flex-1 py-2.5 rounded-lg text-[11px] font-black transition-all text-center', !newCourse.isVacation ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400']">學生課程</button><button @click="newCourse.isVacation = true" :class="['flex-1 py-2.5 rounded-lg text-[11px] font-black transition-all text-center', newCourse.isVacation ? 'bg-white shadow-sm text-red-600' : 'text-slate-400']">教練休假</button></div>
+            <div v-if="!newCourse.isVacation"><label class="text-[10px] font-black text-slate-400 mb-1 block uppercase text-left">學員姓名</label><input v-model="newCourse.student" type="text" class="w-full bg-slate-100 border-none rounded-xl py-4 px-5 font-black text-base text-left"></div>
+            <div class="grid grid-cols-2 gap-4"><div><label class="text-[10px] font-black text-slate-400 mb-1 block uppercase text-left">日期</label><input v-model="newCourse.date" type="date" class="w-full bg-slate-100 border-none rounded-xl py-4 px-3 font-black text-xs text-left"></div><div><label class="text-[10px] font-black text-slate-400 mb-1 block uppercase text-left">時段</label><select v-model="newCourse.time" class="w-full bg-slate-100 border-none rounded-xl py-4 px-3 font-black text-xs text-left"><option value="全天">全天</option><option v-for="slot in availableSlotsRaw" :key="slot" :value="slot">{{ slot }}</option></select></div></div>
+            <div v-if="newCourse.isVacation && newCourse.time === '全天' && !isEditing" class="animate-in fade-in slide-in-from-top-2 text-left"><label class="text-[10px] font-black text-slate-400 mb-1 block uppercase text-left text-left">結束日期 (多天休假)</label><input v-model="newCourse.endDate" type="date" class="w-full bg-slate-100 border-none rounded-xl py-4 px-5 font-black text-base text-left text-left" :min="newCourse.date"></div>
             <button @click="saveCourse" :class="['w-full text-white font-black py-5 rounded-2xl shadow-xl active:scale-95 transition-all text-center', (newCourse.isVacation) ? 'bg-red-600' : 'bg-slate-900']">確定儲存同步</button>
         </div></div></div></transition>
 
-        <!-- 開發對象彈窗 -->
-        <transition name="fade"><div v-if="showLeadModal" class="fixed inset-0 z-[600] flex items-center justify-center p-4 text-left"><div @click="showLeadModal = false" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"></div><div class="relative w-full max-w-md bg-white rounded-[3.5rem] p-10 shadow-2xl border-4 border-slate-50 animate-in zoom-in-95 text-left"><div class="flex items-center justify-between mb-8 text-left"><div><h3 class="text-2xl font-black text-slate-900">{{ isEditingLead ? '編輯對象' : '新增對象' }}</h3></div><button @click="showLeadModal = false" class="p-2 bg-slate-100 rounded-full active:scale-95 text-left"><i data-lucide="x" class="w-6 h-6 text-left"></i></button></div><div class="space-y-6 text-left"><div><label class="text-[10px] font-black text-slate-400 mb-2 block uppercase text-left">姓名</label><input v-model="currentLead.name" type="text" class="w-full bg-slate-100 border-none rounded-2xl py-4 px-6 font-black text-lg text-left"></div><div><label class="text-[10px] font-black text-slate-400 mb-2 block uppercase text-left">電話</label><input v-model="currentLead.phone" type="text" class="w-full bg-slate-100 border-none rounded-2xl py-4 px-6 font-black text-lg text-left"></div><div><label class="text-[10px] font-black text-slate-400 mb-2 block uppercase text-left">訊息及 LINE 聯繫</label><input v-model="currentLead.lineMsg" type="text" class="w-full bg-slate-100 border-none rounded-2xl py-4 px-6 font-black text-lg text-left"></div><div><label class="text-[10px] font-black text-slate-400 mb-2 block uppercase text-left">當前進度</label><select v-model="currentLead.status" class="w-full bg-slate-100 border-none rounded-2xl py-4 px-6 font-black text-lg text-left"><option v-for="st in ['待聯繫', '聯繫中', '已約體驗', '已開發成功', '暫不考慮']" :key="st" :value="st">{{ st }}</option></select></div><div v-if="currentLead.status === '已開發成功'" class="animate-in slide-in-from-top-2 text-left"><label class="text-[10px] font-black text-emerald-500 mb-2 block uppercase text-left">購買堂數</label><input v-model.number="currentLead.purchasedLessons" type="number" class="w-full bg-emerald-50 border-emerald-100 border rounded-2xl py-4 px-6 font-black text-lg text-emerald-800 text-left"></div><button @click="saveLead" class="w-full bg-slate-900 text-white font-black py-5 rounded-2xl shadow-xl active:scale-95 transition-all text-center">確認連動存檔</button></div></div></div></transition>
+        <transition name="fade"><div v-if="showLeadModal" class="fixed inset-0 z-[600] flex items-center justify-center p-2 text-left"><div @click="showLeadModal = false" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"></div><div class="relative w-full max-w-md bg-white rounded-[2.5rem] p-8 shadow-2xl animate-in zoom-in-95 text-left"><div class="flex items-center justify-between mb-6 text-left"><div><h3 class="text-xl font-black text-slate-900 text-left">{{ isEditingLead ? '編輯對象' : '新增對象' }}</h3></div><button @click="showLeadModal = false" class="p-2 bg-slate-100 rounded-full active:scale-95 text-left text-left text-left"><i data-lucide="x" class="w-5 h-5 text-left"></i></button></div><div class="space-y-4 text-left text-left"><div><label class="text-[10px] font-black text-slate-400 mb-1 block uppercase text-left">姓名</label><input v-model="currentLead.name" type="text" class="w-full bg-slate-100 border-none rounded-xl py-4 px-5 font-black text-base text-left"></div><div><label class="text-[10px] font-black text-slate-400 mb-1 block uppercase text-left text-left">電話</label><input v-model="currentLead.phone" type="text" class="w-full bg-slate-100 border-none rounded-xl py-4 px-5 font-black text-base text-left text-left"></div><div><label class="text-[10px] font-black text-slate-400 mb-1 block uppercase text-left text-left">訊息及 LINE 聯繫</label><input v-model="currentLead.lineMsg" type="text" class="w-full bg-slate-100 border-none rounded-xl py-4 px-5 font-black text-base text-left text-left text-left"></div><div><label class="text-[10px] font-black text-slate-400 mb-1 block uppercase text-left text-left text-left">當前進度</label><select v-model="currentLead.status" class="w-full bg-slate-100 border-none rounded-xl py-4 px-5 font-black text-sm text-left text-left text-left"><option v-for="st in ['待聯繫', '聯繫中', '體驗', '成功', '不考慮']" :key="st" :value="st">{{ st }}</option></select></div><div v-if="currentLead.status === '已開發成功' || currentLead.status === '成功'" class="animate-in slide-in-from-top-2 text-left text-left text-left"><label class="text-[10px] font-black text-emerald-500 mb-1 block uppercase text-left text-left text-left">購買堂數</label><input v-model.number="currentLead.purchasedLessons" type="number" class="w-full bg-emerald-50 border-emerald-100 border rounded-xl py-4 px-5 font-black text-lg text-emerald-800 text-left text-left text-left text-left"></div><button @click="saveLead" class="w-full bg-slate-900 text-white font-black py-5 rounded-2xl shadow-xl active:scale-95 transition-all text-center">完成同步</button></div></div></div></transition>
 
-        <transition name="fade"><div v-if="showStudentModal" class="fixed inset-0 z-[600] flex items-center justify-center p-4 text-left text-left"><div @click="showStudentModal = false" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm text-left"></div><div class="relative w-full max-w-md bg-white rounded-[3.5rem] p-10 shadow-2xl animate-in zoom-in-95 text-left"><div class="flex items-center justify-between mb-8 text-left"><div><h3 class="text-2xl font-black text-slate-900 text-left">{{ isEditingStudent ? '編輯學員' : '新增學員' }}</h3></div><button @click="showStudentModal = false" class="p-2 bg-slate-100 rounded-full active:scale-95 text-left"><i data-lucide="x" class="w-6 h-6 text-left text-left"></i></button></div><div class="space-y-6 text-left"><div><label class="text-[10px] font-black text-slate-400 mb-2 block uppercase text-left">姓名</label><input v-model="currentStudent.name" type="text" class="w-full bg-slate-100 border-none rounded-2xl py-4 px-6 font-black text-lg text-left"></div><div><label class="text-[10px] font-black text-slate-400 mb-2 block uppercase text-left">總堂數</label><input v-model.number="currentStudent.totalLessons" type="number" class="w-full bg-slate-100 border-none rounded-2xl py-4 px-6 font-black text-lg text-left"></div><div><label class="text-[10px] font-black text-slate-400 mb-2 block uppercase text-left">課程分類</label><input v-model="currentStudent.category" type="text" placeholder="課程分類" class="w-full bg-slate-100 border-none rounded-2xl py-4 px-6 font-black text-lg text-left"></div><button @click="saveStudent" class="w-full bg-slate-900 text-white font-black py-5 rounded-2xl shadow-xl active:scale-95 transition-all text-center text-left">確認存檔</button></div></div></div></transition>
+        <transition name="fade"><div v-if="showStudentModal" class="fixed inset-0 z-[600] flex items-center justify-center p-2 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"><div @click="showStudentModal = false" class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm text-left text-left text-left text-left"></div><div class="relative w-full max-w-md bg-white rounded-[2.5rem] p-8 shadow-2xl animate-in zoom-in-95 text-left text-left text-left text-left text-left"><div class="flex items-center justify-between mb-6 text-left text-left text-left text-left text-left text-left text-left"><div><h3 class="text-xl font-black text-slate-900 text-left text-left text-left text-left text-left text-left text-left">編輯學員</h3></div><button @click="showStudentModal = false" class="p-2 bg-slate-100 rounded-full active:scale-95 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"><i data-lucide="x" class="w-6 h-6 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"></i></button></div><div class="space-y-4 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"><div><label class="text-[10px] font-black text-slate-400 mb-1 block uppercase text-left text-left text-left text-left text-left text-left text-left text-left">姓名</label><input v-model="currentStudent.name" type="text" class="w-full bg-slate-100 border-none rounded-xl py-4 px-5 font-black text-base text-left text-left text-left text-left text-left text-left text-left"></div><div><label class="text-[10px] font-black text-slate-400 mb-1 block uppercase text-left text-left text-left text-left text-left text-left text-left text-left">總堂數</label><input v-model.number="currentStudent.totalLessons" type="number" class="w-full bg-slate-100 border-none rounded-xl py-4 px-5 font-black text-base text-left text-left text-left text-left text-left text-left text-left text-left"></div><div><label class="text-[10px] font-black text-slate-400 mb-1 block uppercase text-left text-left text-left text-left text-left text-left text-left text-left text-left">課程分類</label><input v-model="currentStudent.category" type="text" placeholder="例如：重訓" class="w-full bg-slate-100 border-none rounded-xl py-4 px-5 font-black text-base text-left text-left text-left text-left text-left text-left"></div><button @click="saveStudent" class="w-full bg-slate-900 text-white font-black py-5 rounded-2xl shadow-xl active:scale-95 transition-all text-center text-center text-center text-center text-center text-center text-center text-center">確認存檔</button></div></div></div></transition>
 
-        <transition name="fade"><div v-if="showNoteModal" class="fixed inset-0 z-[650] flex items-center justify-center p-4 text-left"><div @click="showNoteModal = false" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm text-left"></div><div class="relative w-full max-w-sm bg-white rounded-[3rem] p-8 shadow-2xl animate-in zoom-in-95 text-left"><div class="flex items-center justify-between mb-6 text-left"><div><h3 class="text-xl font-black text-slate-900 text-left">新增備忘紀錄</h3><p class="text-[10px] font-bold text-slate-400 mt-1">對象：{{ tempLeadForNote?.name }}</p></div><button @click="showNoteModal = false" class="p-2 text-slate-400 hover:bg-slate-50 rounded-full text-left"><i data-lucide="x" class="w-5 h-5 text-left"></i></button></div><div class="space-y-6 text-left"><div><label class="text-[10px] font-black text-slate-400 mb-2 block text-left">內容細節</label><textarea v-model="tempNoteContent" placeholder="在此記錄聯繫狀況..." class="w-full h-32 bg-slate-50 border-none rounded-2xl py-4 px-5 font-bold text-slate-800 resize-none text-left"></textarea></div><button @click="submitNote" class="w-full bg-slate-900 text-white font-black py-5 rounded-2xl shadow-xl active:scale-95 transition-all text-center text-left">確定同步存檔</button></div></div></div></transition>
+        <transition name="fade">
+            <div v-if="showBookingModal" class="fixed inset-0 z-[600] flex items-end md:items-center justify-center p-0 md:p-6 text-left text-left text-left text-left text-left">
+                <div @click="showBookingModal = false" class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm text-left text-left text-left text-left text-left"></div>
+                <div class="relative w-full max-w-xl bg-white rounded-t-[2.5rem] md:rounded-[3.5rem] p-8 shadow-2xl animate-in slide-in-from-bottom-10 text-left text-left text-left text-left text-left">
+                    <div class="flex items-center justify-between mb-6 text-left text-left text-left text-left text-left">
+                        <div class="text-left text-left text-left text-left text-left text-left">
+                            <h3 class="text-2xl font-black text-slate-900 leading-tight text-left text-left text-left text-left">預約確認</h3>
+                            <p class="text-indigo-600 font-black mt-1 text-sm text-left text-left text-left text-left text-left">時間：{{ selectedSlot }} ({{ bookingDateLabel }})</p>
+                        </div>
+                        <button @click="showBookingModal = false" class="p-2 bg-slate-50 rounded-full active:scale-95 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"><i data-lucide="x" class="w-7 h-7 text-left text-left text-left text-left text-left text-left text-left text-left text-left"></i></button>
+                    </div>
+                    <div class="space-y-8 text-left text-left text-left text-left text-left text-left">
+                        <div>
+                            <label class="block text-[10px] font-black text-slate-400 uppercase mb-2 pl-1 text-left text-left text-left text-left text-left text-left">您的姓名</label>
+                            <input v-model="bookingName" type="text" placeholder="請輸入姓名" class="w-full bg-slate-50 border-none rounded-2xl py-6 px-8 focus:ring-4 focus:ring-indigo-100 font-black text-xl text-slate-800 text-left text-left text-left text-left text-left text-left">
+                        </div>
+                        <button @click="confirmBooking" class="w-full bg-slate-900 text-white font-black py-6 rounded-3xl active:scale-95 transition-all text-center text-center text-center text-center text-center text-center">完成預約</button>
+                    </div>
+                </div>
+            </div>
+        </transition>
 
-        <transition name="fade"><div v-if="showBookingModal" class="fixed inset-0 z-[600] flex items-end md:items-center justify-center p-0 md:p-6 text-left"><div @click="showBookingModal = false" class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm text-left text-left"></div><div class="relative w-full max-w-xl bg-white rounded-t-[3.5rem] md:rounded-[3.5rem] p-10 shadow-2xl animate-in slide-in-from-bottom-10 text-left"><div class="flex items-center justify-between mb-8 text-left"><div><h3 class="text-3xl font-black text-slate-900 leading-tight">課程預約確認</h3><p class="text-indigo-600 font-black mt-1 text-left">時間：{{ selectedSlot }} ({{ bookingDateLabel }})</p></div><button @click="showBookingModal = false" class="p-3 bg-slate-50 rounded-full active:scale-95 text-left"><i data-lucide="x" class="w-7 h-7 text-left text-left"></i></button></div><div class="space-y-8 text-left"><div><label class="block text-[10px] font-black text-slate-400 uppercase mb-3 pl-1 text-left">您的姓名</label><input v-model="bookingName" type="text" placeholder="請輸入姓名完成預約" class="w-full bg-slate-50 border-none rounded-3xl py-6 px-8 focus:ring-4 focus:ring-indigo-100 font-black text-xl text-slate-800 text-left text-left"></div><button @click="confirmBooking" class="w-full bg-slate-900 text-white font-black py-6 rounded-3xl active:scale-95 transition-all text-center text-left text-left">確定預約</button></div></div></div></transition>
-
-        <div v-if="toast.show" class="fixed top-12 left-1/2 -translate-x-1/2 z-[1000] bg-slate-900 text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-10 text-left"><i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 text-left"></i><span class="text-sm font-black text-left">{{ toast.msg }}</span></div>
+        <div v-if="toast.show" class="fixed top-12 left-1/2 -translate-x-1/2 z-[1000] bg-slate-900 text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-10 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"><i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"></i><span class="text-sm font-black text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">{{ toast.msg }}</span></div>
     </div>
 
     <!-- 腳本整合 -->
@@ -441,7 +488,6 @@
 
         createApp({
             setup() {
-                // --- 工具與格式 ---
                 const formatDateLocal = (d) => { if (!d) return ""; const year = d.getFullYear(); const month = (d.getMonth() + 1).toString().padStart(2, '0'); const day = d.getDate().toString().padStart(2, '0'); return `${year}-${month}-${day}`; };
                 const refreshIcons = () => { nextTick(() => { if (typeof lucide !== 'undefined') lucide.createIcons(); }); };
                 const showToast = (m) => { toast.value = { show: true, msg: m }; setTimeout(() => toast.value.show = false, 3000); };
@@ -449,9 +495,8 @@
                 const bookingTimeDisplay = (t) => { if (!t || t === '全天') return '全天休假'; return `${t} - ${getEndTime(t)}`; };
                 const getLightBgClass = (color) => color ? `${color.split('-')[0]}-${color.split('-')[1]}-50` : 'bg-indigo-50';
                 const getBorderClass = (color) => color ? color.replace('bg-', 'border-') : 'border-indigo-500';
-                const getLeadStatusClass = (status) => { switch(status) { case '待聯繫': return 'bg-amber-100 text-amber-600'; case '聯繫中': return 'bg-indigo-100 text-indigo-600'; case '已約體驗': return 'bg-purple-100 text-purple-600'; case '已開發成功': return 'bg-emerald-100 text-emerald-600'; default: return 'bg-slate-100 text-slate-400'; } };
+                const getLeadStatusClass = (status) => { switch(status) { case '待聯繫': return 'bg-amber-100 text-amber-600'; case '聯繫中': return 'bg-indigo-100 text-indigo-600'; case '體驗': return 'bg-purple-100 text-purple-600'; case '成功': return 'bg-emerald-100 text-emerald-600'; default: return 'bg-slate-100 text-slate-400'; } };
 
-                // --- 狀態定義 ---
                 const courses = ref([]);
                 const students = ref([]);
                 const leads = ref([]);
@@ -470,12 +515,17 @@
                 const isEditingLead = ref(false);
                 const studentViewMode = ref('active');
                 const leadViewMode = ref('active');
+                
                 const showAddModal = ref(false);
                 const showStudentModal = ref(false);
                 const showCoachAuth = ref(false);
                 const showLeadModal = ref(false);
                 const showNoteModal = ref(false);
-                const showBookingModal = ref(false);
+                const showBookingModal = ref(false); 
+                
+                const showAttendanceModal = ref(false);
+                const selectedStudentForAttendance = ref(null);
+
                 const coachPass = ref('');
                 const bookingName = ref('');
                 const selectedSlot = ref('');
@@ -490,7 +540,6 @@
                 const dayNamesShort = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
                 const availableSlotsRaw = Array.from({length: 31}, (_, i) => { const h = Math.floor(i / 2) + 7; const m = (i % 2) * 30; return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`; });
 
-                // --- 數據統計 ---
                 const getStudentStats = (name) => { 
                     if (!name) return { used: 0, remaining: 0, rate: 0 };
                     const used = courses.value.filter(c => c?.student?.trim() === name.trim() && !c?.isVacation && (c?.status === 'confirmed' || c?.status === 'no-show')).length; 
@@ -503,9 +552,9 @@
                 const getStudentRecords = (name) => {
                     if (!name) return [];
                     return courses.value
-                        .filter(c => c?.student?.trim() === name.trim() && !c?.isVacation && c?.status === 'confirmed')
+                        .filter(c => c?.student?.trim() === name.trim() && !c?.isVacation && (c?.status === 'confirmed' || c?.status === 'no-show'))
                         .sort((a,b) => b.date.localeCompare(a.date))
-                        .map(c => ({ id: c.id, date: c.date, time: c.time }));
+                        .map(c => ({ id: c.id, date: c.date, time: c.time, status: c.status }));
                 };
 
                 const isFullDayVacation = (date) => courses.value.some(c => c.date === date && c.isVacation && c.time === '全天');
@@ -531,38 +580,34 @@
 
                 const verifyCoach = () => { if (coachPass.value === '888') { isCoachMode.value = true; activeTab.value = 'schedule'; showCoachAuth.value = false; coachPass.value = ''; showToast('驗證成功'); } else { showToast('密碼錯誤'); } };
                 const logoutCoach = () => { isCoachMode.value = false; activeTab.value = 'booking'; showToast('登出成功'); };
-                const manualSync = async () => { syncStatus.value = 'syncing'; await disableNetwork(db); await enableNetwork(db); setTimeout(() => { syncStatus.value = 'synced'; showToast('同步成功'); }, 500); };
+                const manualSync = async () => { syncStatus.value = 'syncing'; await disableNetwork(db); await enableNetwork(db); setTimeout(() => { syncStatus.value = 'synced'; showToast('同步完成'); }, 500); };
 
                 const openAddModal = () => { isEditing.value = false; newCourse.value = { date: selectedDate.value || formatDateLocal(new Date()), endDate: '', time: '全天', student: '', isVacation: false, status: 'confirmed' }; showAddModal.value = true; refreshIcons(); };
                 const editCourse = (c) => { isEditing.value = true; newCourse.value = { ...c }; showAddModal.value = true; refreshIcons(); };
+                
                 const openStudentModal = () => { isEditingStudent.value = false; currentStudent.value = { name: '', totalLessons: 10, isArchived: false, category: '', source: '' }; showStudentModal.value = true; refreshIcons(); };
                 const editStudent = (s) => { isEditingStudent.value = true; currentStudent.value = { ...s }; showStudentModal.value = true; refreshIcons(); };
+                
                 const openLeadModal = () => { isEditingLead.value = false; currentLead.value = { name: '', phone: '', lineMsg: '', status: '待聯繫', notes: [], purchasedLessons: 10, isCompleted: false }; showLeadModal.value = true; refreshIcons(); };
                 const editLead = (l) => { isEditingLead.value = true; currentLead.value = { ...l }; showLeadModal.value = true; refreshIcons(); };
                 const addProgressNote = (lead) => { if (!lead?.id) return; tempLeadForNote.value = { ...lead }; tempNoteContent.value = ''; showNoteModal.value = true; refreshIcons(); };
 
+                const openAttendanceDetail = (s) => { selectedStudentForAttendance.value = s; showAttendanceModal.value = true; refreshIcons(); };
+
                 const renewStudent = async (s) => { if (!s.renewalLessons || s.renewalLessons <= 0) return; const newT = (s.totalLessons || 0) + s.renewalLessons; await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'students', s.id), { totalLessons: newT, isArchived: false }); showToast('續約成功'); };
-                const archiveStudent = async (id, arc) => { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'students', id), { isArchived: arc }); showToast(arc ? '歸檔完成' : '恢復進行'); };
-                const updateCourseStatus = async (id, st) => { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', id), { status: st }); showToast('狀態更新成功'); };
-                
+                const archiveStudent = async (id, arc) => { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'students', id), { isArchived: arc }); showToast(arc ? '封存完成' : '恢復進行'); };
+                const updateCourseStatus = async (id, st) => { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'courses', id), { status: st }); showToast('同步成功'); };
                 const toggleLeadComplete = async (lead) => { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'leads', lead.id), { isCompleted: !lead.isCompleted }); };
 
                 const triggerLeadStatusUpdate = async (lead, st) => {
                     const oldStatus = lead.status;
-                    if (oldStatus === '已開發成功' && st !== '已開發成功') {
+                    const normalizedSt = st === '體驗' ? '已約體驗' : st === '成功' ? '已開發成功' : st;
+                    if (oldStatus === '已開發成功' && normalizedSt !== '已開發成功') {
                         const stu = students.value.find(s => s.name === lead.name);
-                        if (stu) {
-                            await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'students', stu.id));
-                            showToast('對象狀態改回，同步刪除學員資料');
-                        }
+                        if (stu) { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'students', stu.id)); showToast('同步移除學員紀錄'); }
                     }
-                    if (st === '已開發成功') {
-                        editLead(lead);
-                        currentLead.value.status = '已開發成功';
-                    } else {
-                        await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'leads', lead.id), { status: st });
-                        showToast('進度更新成功');
-                    }
+                    if (normalizedSt === '已開發成功') { editLead(lead); currentLead.value.status = '已開發成功'; } 
+                    else { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'leads', lead.id), { status: normalizedSt }); showToast('進度已更新'); }
                 };
 
                 const saveCourse = async () => { 
@@ -577,31 +622,22 @@
                         if (isEditing.value) { const dId = newCourse.value.id; const data = { ...newCourse.value }; delete data.id; await updateDoc(doc(db, col.path, dId), data); }
                         else { await addDoc(col, { ...newCourse.value, student: newCourse.value.isVacation ? '教練休假' : newCourse.value.student }); }
                     }
-                    showAddModal.value = false; showToast('行程存檔完成'); 
+                    showAddModal.value = false; showToast('行程存檔'); 
                 };
 
                 const saveStudent = async () => { if (!currentStudent.value.name) return; const col = collection(db, 'artifacts', appId, 'public', 'data', 'students'); if (isEditingStudent.value) { const sid = currentStudent.value.id; const data = {...currentStudent.value}; delete data.id; await updateDoc(doc(db, col.path, sid), data); } else { await addDoc(col, { ...currentStudent.value, isArchived: false }); } showStudentModal.value = false; showToast('學員存檔完成'); };
-                
                 const saveLead = async () => { 
                     if (!currentLead.value.name) return; 
                     const col = collection(db, 'artifacts', appId, 'public', 'data', 'leads'); 
-                    if (currentLead.value.status === '已開發成功') {
+                    const finalStatus = (currentLead.value.status === '成功') ? '已開發成功' : currentLead.value.status;
+                    if (finalStatus === '已開發成功') {
                         const stuCol = collection(db, 'artifacts', appId, 'public', 'data', 'students');
                         const exists = students.value.some(s => s.name === currentLead.value.name);
-                        if (!exists) {
-                            await addDoc(stuCol, {
-                                name: currentLead.value.name,
-                                totalLessons: currentLead.value.purchasedLessons || 10,
-                                category: '', 
-                                source: '開發成功轉入',
-                                isArchived: false
-                            });
-                        }
+                        if (!exists) { await addDoc(stuCol, { name: currentLead.value.name, totalLessons: currentLead.value.purchasedLessons || 10, category: '', source: '開發成功轉入', isArchived: false }); }
                     }
-                    if (isEditingLead.value) { const lid = currentLead.value.id; const data = { ...currentLead.value }; delete data.id; await updateDoc(doc(db, col.path, lid), data); } 
-                    else { await addDoc(col, { ...currentLead.value, createdAt: new Date().toISOString() }); } 
-                    showLeadModal.value = false; 
-                    showToast('資料同步成功'); 
+                    if (isEditingLead.value) { const lid = currentLead.value.id; const data = { ...currentLead.value, status: finalStatus }; delete data.id; await updateDoc(doc(db, col.path, lid), data); } 
+                    else { await addDoc(col, { ...currentLead.value, status: finalStatus, createdAt: new Date().toISOString() }); } 
+                    showLeadModal.value = false; showToast('同步成功'); 
                 };
 
                 const deleteLead = async (id) => { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'leads', id)); };
@@ -609,7 +645,6 @@
                 const deleteStudent = async (id) => { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'students', id)); };
                 const submitNote = async () => { if (!tempNoteContent.value || !tempLeadForNote.value?.id) return; const leadObj = leads.value.find(l => l.id === tempLeadForNote.value.id); const ex = leadObj?.notes || []; await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'leads', tempLeadForNote.value.id), { notes: [...ex, { content: tempNoteContent.value, date: new Date().toLocaleString() }] }); showNoteModal.value = false; showToast('紀錄同步完成'); };
 
-                // --- 計算屬性 (週曆修復) ---
                 const yearOptions = computed(() => { const curr = new Date().getFullYear(); return [curr - 1, curr, curr + 1, curr + 2]; });
                 const currentWeekDays = computed(() => {
                     const days = []; const base = new Date(viewDate.value);
@@ -639,8 +674,8 @@
                 
                 const activeStudents = computed(() => students.value.filter(s => !s.isArchived));
                 const archivedStudents = computed(() => students.value.filter(s => s.isArchived));
-                const activeLeads = computed(() => leads.value.filter(l => l.status !== '已開發成功'));
-                const archivedLeads = computed(() => leads.value.filter(l => l.status === '已開發成功'));
+                const activeLeads = computed(() => leads.value.filter(l => l.status !== '已開發成功' && l.status !== '成功'));
+                const archivedLeads = computed(() => leads.value.filter(l => l.status === '已開發成功' || l.status === '成功'));
 
                 watch([selectedYear, selectedMonth], ([nY, nM]) => {
                     const currentView = new Date(viewDate.value);
@@ -648,6 +683,8 @@
                         viewDate.value = new Date(Number(nY), Number(nM), 1);
                     }
                 });
+
+                watch([activeTab, studentViewMode, leadViewMode, calendarView], () => refreshIcons());
 
                 onMounted(async () => {
                     const now = new Date(); viewDate.value = now; selectedYear.value = now.getFullYear(); selectedMonth.value = now.getMonth(); selectedDate.value = formatDateLocal(now);
@@ -668,11 +705,9 @@
                     });
                 });
 
-                watch(activeTab, () => refreshIcons());
-
                 return {
                     user, syncStatus, activeTab, navItems: [{ id: 'schedule', name: '課程表', icon: 'calendar' }, { id: 'students', name: '學員名單', icon: 'users' }, { id: 'leads', name: '開發進度', icon: 'message-square' }, { id: 'booking', name: '預約端', icon: 'send' }], 
-                    courses, students, leads, isCoachMode, calendarView, selectedDate, getDayCourses, weekRangeLabel, viewMonthPadding, viewDaysInMonth, showAddModal, showStudentModal, showBookingModal, showCoachAuth, showLeadModal, showNoteModal, coachPass, bookingName, bookingDateLabel: computed(() => selectedDate.value), selectedSlot, verifyCoach, logoutCoach, manualSync, openAddModal, editCourse, saveCourse, saveStudent, saveLead, updateCourseStatus, deleteCourse, deleteStudent, toast, getAvailableSlots, bookingTimeDisplay, isFullDayVacation, goToToday: () => { const t = new Date(); viewDate.value = t; selectedYear.value = t.getFullYear(); selectedMonth.value = t.getMonth(); selectedDate.value = formatDateLocal(t); }, getStudentStats, getStudentRecords, currentWeekDays, dayNamesShort, monthlyFullSchedule, weeklyFullSchedule, openStudentModal, editStudent, yearOptions, monthLabelsArr, selectedYear, selectedMonth, newCourse, currentStudent, currentLead, openLeadModal, editLead, deleteLead, addProgressNote, tempLeadForNote, tempNoteContent, submitNote, getLightBgClass, getBorderClass, getLeadStatusClass, toggleLeadComplete, isEditing, isEditingStudent, triggerLeadStatusUpdate, leadViewMode, activeLeads, archivedLeads, availableSlotsRaw, studentViewMode, activeStudents, archivedStudents, renewStudent, archiveStudent, triggerBooking: (slot, date) => { selectedSlot.value = slot; selectedDate.value = date; bookingName.value = ''; showBookingModal.value = true; refreshIcons(); }, confirmBooking: async () => { if (!bookingName.value) return showToast('姓名必填'); await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'courses'), { student: bookingName.value.trim(), date: selectedDate.value, time: selectedSlot.value, isVacation: false, status: 'confirmed', color: 'bg-indigo-50' }); showBookingModal.value = false; showToast('預約成功'); },
+                    courses, students, leads, isCoachMode, calendarView, selectedDate, getDayCourses, weekRangeLabel, viewMonthPadding, viewDaysInMonth, showAddModal, showStudentModal, showCoachAuth, showLeadModal, showNoteModal, showAttendanceModal, showBookingModal, selectedStudentForAttendance, coachPass, bookingName, bookingDateLabel: computed(() => selectedDate.value), selectedSlot, verifyCoach, logoutCoach, manualSync, openAddModal, editCourse, saveCourse, saveStudent, saveLead, updateCourseStatus, deleteCourse, deleteStudent, toast, getAvailableSlots, bookingTimeDisplay, isFullDayVacation, goToToday: () => { const t = new Date(); viewDate.value = t; selectedYear.value = t.getFullYear(); selectedMonth.value = t.getMonth(); selectedDate.value = formatDateLocal(t); }, getStudentStats, getStudentRecords, currentWeekDays, dayNamesShort, monthlyFullSchedule, weeklyFullSchedule, openStudentModal, editStudent, yearOptions, monthLabelsArr, selectedYear, selectedMonth, newCourse, currentStudent, currentLead, openLeadModal, editLead, deleteLead, addProgressNote, tempLeadForNote, tempNoteContent, submitNote, getLightBgClass, getBorderClass, getLeadStatusClass, toggleLeadComplete, isEditing, isEditingStudent, triggerLeadStatusUpdate, leadViewMode, activeLeads, archivedLeads, availableSlotsRaw, studentViewMode, activeStudents, archivedStudents, renewStudent, archiveStudent, openAttendanceDetail, triggerBooking: (slot, date) => { selectedSlot.value = slot; selectedDate.value = date; bookingName.value = ''; showBookingModal.value = true; refreshIcons(); }, confirmBooking: async () => { if (!bookingName.value) return showToast('姓名必填'); await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'courses'), { student: bookingName.value.trim(), date: selectedDate.value, time: selectedSlot.value, isVacation: false, status: 'confirmed', color: 'bg-indigo-50' }); showBookingModal.value = false; showToast('預約成功'); },
                     changeViewPeriod, isEditingLead, isEditingStudent,
                     pageTitle: computed(() => { switch(activeTab.value) { case 'schedule': return '排程管理'; case 'students': return '學員名單'; case 'leads': return '開發對象'; default: return '教練管理系統'; } })
                 };
